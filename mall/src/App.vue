@@ -1,12 +1,27 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
+      <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import axios from "axios";
+// import jsonp from "jsonp";
+
+export default {
+  name: "App",
+  mounted() {
+    // let url = "https://www.imooc.com/search/hotwords";
+    let url = "/search/hotwords";
+    // jsonp(url, () => {});
+    axios.get(url).then(res => console.log(res));
+  }
+};
+</script>
 
 <style>
 #app {
