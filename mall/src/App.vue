@@ -5,11 +5,14 @@
 </template>
 
 <script>
+import storage from "./storage/index";
 export default {
-  name: "App"
+  name: "App",
+  mounted() {
+    storage.clear("age_", "user");
+  },
 };
 </script>
 
 <style>
-
 </style>
