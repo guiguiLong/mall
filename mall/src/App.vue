@@ -8,11 +8,20 @@
 import storage from "./storage/index";
 export default {
   name: "App",
+  data() {
+    return {
+      user: {},
+    };
+  },
   mounted() {
-    storage.clear("age_", "user");
+    this.axios.get("/user/login").then((res) => {
+      this.user = res;
+    });
   },
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "./assets/scss/config.scss";
+@import "./assets/scss/reset.scss";
 </style>

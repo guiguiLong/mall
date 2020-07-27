@@ -5,17 +5,23 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import env from './env'
 
-// axios.defaults.baseURL = '/api';
-axios.defaults.baseURL = env.baseURL;
+let mock = true;
+if (mock) {
+    require('../public/mock/user/api')
+}
+
+axios.defaults.baseURL = '/api';
+// axios.defaults.baseURL = env.baseURL;
 axios.defaults.timeout = 8000;
 
 axios.interceptors.response.use(res => {
-    if (res.status === 0) {
-        return res.data
-    } else if (res.status === 10) {
+    let res_ = res.data;
+    if (res_.status === 0) {
+        return res_.data
+    } else if (res_.status === 10) {
         window.location.href = '/login';
     } else {
-        alert(res.msg)
+        alert(res_.msg)
     }
 })
 
