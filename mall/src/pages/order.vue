@@ -14,8 +14,8 @@ export default {
   name: "Order",
   components: {
     OrderHeader,
-    NavFooter
-  }
+    NavFooter,
+  },
 };
 </script>
 

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueLazyLoad from 'vue-lazyload'
 import env from './env'
 
 let mock = true;
@@ -26,6 +27,9 @@ axios.interceptors.response.use(res => {
 })
 
 Vue.use(VueAxios, axios)
+Vue.use(VueLazyLoad, {
+    loading: '/imgs/loading-svg/loading-bubbles.svg'
+})
 
 Vue.config.productionTip = false
 

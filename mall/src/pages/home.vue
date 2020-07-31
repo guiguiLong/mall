@@ -14,10 +14,11 @@ export default {
   name: "Home",
   components: {
     NavHeader,
-    NavFooter
-  }
+    NavFooter,
+  },
 };
 </script>
 
-<style>
+<style lang="scss">
+
 </style>
