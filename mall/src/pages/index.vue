@@ -389,7 +389,7 @@ export default {
             margin-right: 14.5px;
             transition: all 0.2s linear;
             &:hover {
-              box-shadow: 0px 7px 6px 0px $colorH;
+              box-shadow: 3px 7px 10px 5px $colorH;
               transition: all 0.2s linear;
               margin-top: -5px;
             }
