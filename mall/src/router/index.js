@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import store from './../store'
 
 const Home = () =>
     import ('../pages/home')
@@ -35,6 +38,7 @@ const AliPay = () =>
     import ('../pages/alipay')
 
 Vue.use(VueRouter)
+Vue.use(VueAxios, axios)
 
 const routes = [{
         path: '/',
@@ -82,10 +86,31 @@ const routes = [{
 
 ]
 
+
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes
 })
 
+
+router.beforeEach((to, from, next) => {
+    next();
+    axios
+        .get("/carts/products/sum")
+        .then((res = 0) => {
+            store.dispatch("saveCartCount", res);
+        })
+        .catch((err) => {
+            throw err;
+        });
+    axios
+        .get("/user")
+        .then((res = {}) => {
+            store.dispatch("saveUserName", res.username);
+        })
+        .catch((err) => {
+            throw err;
+        });
+})
 export default router

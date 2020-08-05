@@ -156,9 +156,7 @@ export default {
     login() {
       this.$router.push("/login");
     },
-    loginOut() {
- 
-    },
+    loginOut() {},
   },
   filters: {
     currency(val) {
@@ -178,6 +176,9 @@ export default {
           return (this.productList = res.list.slice(0, 6));
         }
         return (this.productList = res.list);
+      })
+      .catch(err => {
+        throw err;
       });
   },
 };

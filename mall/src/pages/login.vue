@@ -73,6 +73,9 @@ export default {
           this.$router.push("/index");
           this.username = "";
           this.password = "";
+        })
+        .catch((err) => {
+          throw err;
         });
     },
     register() {
@@ -86,7 +89,7 @@ export default {
           alert("注册成功");
         })
         .catch((err) => {
-          console.log(err);
+          throw err;
         });
     },
   },

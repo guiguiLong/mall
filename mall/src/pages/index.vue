@@ -224,13 +224,18 @@ export default {
   },
   methods: {
     addCart(id) {
-      // this.axios
-      //   .post("/carts", {
-      //     productId: id,
-      //     selected: true,
-      //   })
-      //   .then((res) => {});
-      this.showModal = true;
+      this.axios
+        .post("/carts", {
+          productId: id,
+          selected: true,
+        })
+        .then((res) => {
+          this.showModal = true;
+          this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
+        })
+        .catch((err) => {
+          throw err;
+        });
     },
     goCart() {
       this.$router.push("/cart");
@@ -246,6 +251,9 @@ export default {
         .then((res) => {
           res.list = res.list.slice(6, 14);
           this.phoneList = [res.list.slice(0, 4), res.list.slice(4, 8)];
+        })
+        .catch((err) => {
+          throw err;
         });
     },
   },
