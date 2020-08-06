@@ -14,7 +14,7 @@
           <a href="javascript:;" v-else @click="login">登录</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" v-else>注册</a>
-          <a href="javascript:;" class="my-cart">
+          <a href="/cart" class="my-cart">
             <span class="icon-cart"></span>
             购物车({{cartcount}})
           </a>
@@ -219,30 +219,6 @@ export default {
       position: relative;
       height: 112px;
       @include flex();
-      .header-logo {
-        display: inline-block;
-        width: 55px;
-        height: 55px;
-        background: #ff6600;
-        a {
-          display: inline-block;
-          width: 110px;
-          height: 55px;
-          &::before {
-            content: " ";
-            @include bgImg(55px, 55px, "/imgs/mi-logo.png");
-            transition: margin 0.2s;
-          }
-          &::after {
-            content: " ";
-            @include bgImg(55px, 55px, "/imgs/mi-home.png");
-          }
-          &:hover::before {
-            margin-left: -55px;
-            transition: margin 0.2s;
-          }
-        }
-      }
       .header-menu {
         display: inline-block;
         width: 643px;
