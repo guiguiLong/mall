@@ -1,14 +1,27 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueLazyLoad from 'vue-lazyload'
 import VueCookie from 'vue-cookie'
+import { Message, ColorPicker } from 'element-ui'
+import { Button } from 'element-ui'
+import { Dialog } from 'element-ui'
+import { Cascader } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import 'default-passive-events'
+import App from './App.vue'
 import store from './store'
+import router from './router'
+import currency from './util/filters'
+
+Object.keys(currency).forEach(k => Vue.filter(k, currency[k]));
+Vue.prototype.$message = Message
 
 Vue.use(VueAxios, axios)
 Vue.use(VueCookie)
+Vue.use(Dialog)
+Vue.use(Button)
+Vue.use(Cascader)
 Vue.use(VueLazyLoad, {
     loading: '/imgs/loading-svg/loading-bubbles.svg'
 })
@@ -34,12 +47,20 @@ axios.interceptors.response.use(res => {
         }
         return Promise.reject(res_.msg)
     } else {
-        alert(res_.msg);
+        Message.error(res_.msg)
         return Promise.reject(res_.msg)
     }
+}, err => {
+    if (err) {
+        if (err.response) {
+            Message.error(err.response.data.message || '网络繁忙,请稍后再试')
+        }
+    }
+    return Promise.reject(err)
 })
 
 Vue.config.productionTip = false
+
 
 new Vue({
     router,

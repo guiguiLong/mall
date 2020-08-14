@@ -64,3 +64,9 @@ input {
         }
     }
 }
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset //背景色是什么，设置相同颜色，这里body的默认背景色是白色
+}

@@ -64,7 +64,15 @@
     </div>
     <div class="product-box">
       <div class="container">
-        <h2>手机</h2>
+        <div class="box-head">
+          <h2>手机</h2>
+          <div class="more">
+            <a href="/productList">
+              <div>查看更多</div>
+              <i class="el-icon-arrow-right more-icon"></i>
+            </a>
+          </div>
+        </div>
         <div class="wrapper">
           <div class="banner-left">
             <a href="javascript:;">
@@ -216,12 +224,6 @@ export default {
       phoneList: [],
     };
   },
-  filters: {
-    currency(val) {
-      if (!val) return "0.00";
-      return `￥${val.toFixed(2)}元`;
-    },
-  },
   methods: {
     addCart(id) {
       this.axios
@@ -232,6 +234,7 @@ export default {
         .then((res) => {
           this.showModal = true;
           this.$store.dispatch("saveCartCount", res.cartTotalQuantity);
+          this.$store.dispatch("saveProductInfo", res);
         })
         .catch((err) => {
           throw err;
@@ -365,12 +368,47 @@ export default {
   .product-box {
     background-color: $colorJ;
     padding: 30px 0 50px;
-    h2 {
-      font-size: $fontF;
-      height: 21px;
-      line-height: 21px;
-      color: $colorB;
-      margin-bottom: 20px;
+    .box-head {
+      position: relative;
+      height: 58px;
+      line-height: 58px;
+      .more {
+        a {
+          color: $colorB;
+          display: inline-block;
+          display: flex;
+          align-items: center;
+          position: absolute;
+          right: 0;
+          top: 0;
+          cursor: pointer;
+          font-size: $fontJ;
+          transition: all 0.4s;
+          &:hover {
+            color: $colorA;
+            .more-icon {
+              background: $colorA;
+            }
+          }
+        }
+        .more-icon {
+          width: 12px;
+          height: 12px;
+          padding: 4px;
+          margin-left: 8px;
+          border-radius: 16px;
+          font-size: 12px;
+          line-height: 12px;
+          background: #b0b0b0;
+          color: #fff;
+          vertical-align: 1px;
+          transition: all 0.4s;
+        }
+      }
+      h2 {
+        font-size: $fontF;
+        color: $colorB;
+      }
     }
     .wrapper {
       display: flex;

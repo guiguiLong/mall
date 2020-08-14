@@ -58,12 +58,12 @@
           后置960帧电影般超慢动作视频，将眨眼间的美妙展现得淋漓尽致！
           <br />更能AI 精准分析视频内容，15个场景智能匹配背景音效。
         </p>
-        <div class="video-bg" @click="showSlide='slideDown'"></div>
+        <div class="video-bg" @click="playVideo"></div>
         <div class="video-box" v-show="showSlide">
           <div class="overlay"></div>
           <div class="video" :class="showSlide">
             <span class="icon-close" @click="closeVideo"></span>
-            <video src="/imgs/product/video.mp4" muted autoplay="autoplay" controls="controls"></video>
+            <video src="/imgs/product/video.mp4" autoplay="autoplay" controls="controls"></video>
           </div>
         </div>
       </div>
@@ -105,11 +105,18 @@ export default {
       let id = this.$route.params.id;
       this.$router.push(`/detail/${id}`);
     },
+    playVideo() {
+      this.showSlide = "slideDown";
+      let video = document.querySelector("video");
+      video.play();
+    },
     closeVideo() {
+      let video = document.querySelector("video");
+      video.pause();
       this.showSlide = "slideUp";
       setTimeout(() => {
         this.showSlide = "";
-      });
+      }, 500);
     },
   },
   mounted() {

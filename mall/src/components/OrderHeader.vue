@@ -11,18 +11,37 @@
         </h2>
       </div>
       <div class="username">
-        <a href="javascript:;">{{username}}</a>
+        <div class="username_title">
+          {{username}}
+          <i class="el-icon-arrow-down user-icon"></i>
+        </div>
+        <div class="username_select">
+          <a href="/cart">购物车</a>
+          <a href="/order/list">我的订单</a>
+          <a href="javascript:;" @click="loginOut">退出登录</a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "OrderHeader",
   computed: {
-    ...mapState(["username"])
+    ...mapState(["username"]),
+  },
+  methods: {
+    //退出登录
+    loginOut() {
+      this.axios.post("/user/logout").then(() => {
+        this.$router.push("/index");
+        this.$cookie.set("userId", "", { expires: "-1" });
+        this.$store.dispatch("saveUserName", "");
+        this.$store.dispatch("saveCartCount", "0");
+      });
+    },
   },
   props: {
     title: String,
@@ -60,9 +79,52 @@ export default {
     }
     .username {
       float: right;
-      a {
-        color: #666666;
-        font-size: 16px;
+      color: #666666;
+      position: relative;
+      &:hover {
+        .username_select {
+          opacity: 1;
+          height: 108px;
+        }
+      }
+      .username_title {
+        .user-icon {
+          font-weight: bold;
+          font-size: 12px;
+        }
+        &:hover {
+          color: #ff6600;
+        }
+      }
+      .username_select {
+        transition: all 0.5s;
+        overflow: hidden;
+        height: 0;
+        opacity: 0;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 10px);
+        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.15);
+        width: 68px;
+        padding: 0 10px;
+        a {
+          display: inline-block;
+          color: #333;
+          text-align: center;
+          font-size: 12px;
+          width: 100%;
+          height: 36px;
+          line-height: 36px;
+          &:hover {
+            color: #ff6600;
+          }
+        }
       }
     }
   }

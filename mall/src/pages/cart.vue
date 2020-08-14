@@ -7,54 +7,65 @@
     </OrderHeader>
     <div class="wrapper">
       <div class="container">
-        <div class="cart-box">
-          <ul class="cart-item-head">
-            <li class="col-1">
-              <span class="checkbox" :class="{'checked':allChecked}" @click="toggleAll"></span>全选
-            </li>
-            <li class="col-3">商品名称</li>
-            <li class="col-1">单价</li>
-            <li class="col-2">数量</li>
-            <li class="col-1">小计</li>
-            <li class="col-1">操作</li>
-          </ul>
-          <ul class="cart-item-list">
-            <li class="cart-item" v-for="(item,index) in list" :key="index">
-              <div class="item-check">
-                <span
-                  class="checkbox"
-                  :class="{'checked':item.productSelected}"
-                  @click="updateCart(item)"
-                ></span>
-              </div>
-              <div class="item-name">
-                <img :src="item.productMainImage" alt />
-                <span>{{item.productName+' '+item.productSubtitle}}</span>
-              </div>
-              <div class="item-price">{{item.productPrice}}元</div>
-              <div class="item-num">
-                <div class="num-box">
-                  <a href="javascript:;" @click="updateCart(item,'-')">-</a>
-                  <span>{{item.quantity}}</span>
-                  <a href="javascript:;" @click="updateCart(item,'+')">+</a>
+        <NoData
+          imgUrl="https://cdn.cnbj1.fds.api.mi-img.com/staticsfile/cart/cart-empty.png"
+          v-if="!loading&&this.list.length===0"
+        >
+          <template v-slot:footer>
+            <a href="/index" class="btn">马上购物</a>
+          </template>
+        </NoData>
+        <div v-else>
+          <div class="cart-box">
+            <Loading v-if="loading"></Loading>
+            <ul class="cart-item-head" v-if="!loading">
+              <li class="col-1">
+                <span class="checkbox" :class="{'checked':allChecked}" @click="toggleAll"></span>全选
+              </li>
+              <li class="col-3">商品名称</li>
+              <li class="col-1">单价</li>
+              <li class="col-2">数量</li>
+              <li class="col-1">小计</li>
+              <li class="col-1">操作</li>
+            </ul>
+            <ul class="cart-item-list">
+              <li class="cart-item" v-for="(item,index) in list" :key="index">
+                <div class="item-check">
+                  <span
+                    class="checkbox"
+                    :class="{'checked':item.productSelected}"
+                    @click="updateCart(item)"
+                  ></span>
                 </div>
-              </div>
-              <div class="item-total">{{item.productTotalPrice}}元</div>
-              <div class="item-del" @click="productModal(item)"></div>
-            </li>
-          </ul>
-        </div>
-        <div class="order-wrap clearfix">
-          <div class="cart-tip fl">
-            <a href="/index">继续购物</a>
-            共
-            <span>{{list.length}}</span>件商品，已选择
-            <span>{{checkedNum}}</span>件
+                <div class="item-name">
+                  <img :src="item.productMainImage" alt />
+                  <span>{{item.productName+' '+item.productSubtitle}}</span>
+                </div>
+                <div class="item-price">{{item.productPrice}}元</div>
+                <div class="item-num">
+                  <div class="num-box">
+                    <a href="javascript:;" @click="updateCart(item,'-')">-</a>
+                    <span>{{item.quantity}}</span>
+                    <a href="javascript:;" @click="updateCart(item,'+')">+</a>
+                  </div>
+                </div>
+                <div class="item-total">{{item.productTotalPrice}}元</div>
+                <div class="item-del" @click="productModal(item)"></div>
+              </li>
+            </ul>
           </div>
-          <div class="total fr">
-            合计：
-            <span>{{cartTotalPrice}}</span>元
-            <a href="javascript:;" class="btn" @click="order">去结算</a>
+          <div class="order-wrap clearfix" v-if="!loading">
+            <div class="cart-tip fl">
+              <a href="/index">继续购物</a>
+              共
+              <span>{{list.length}}</span>件商品，已选择
+              <span>{{checkedNum}}</span>件
+            </div>
+            <div class="total fr">
+              合计：
+              <span>{{cartTotalPrice}}</span>元
+              <a href="javascript:;" class="btn" @click="order">去结算</a>
+            </div>
           </div>
         </div>
       </div>
@@ -77,10 +88,13 @@
 </template>
 
 <script>
+import Loading from "./../components/Loading";
+import NoData from "./../components/NoData";
 import OrderHeader from "../components/OrderHeader";
 import NavFooter from "../components/NavFooter";
 import ServiceBar from "../components/ServiceBar";
 import Modal from "../components/Modal";
+import showMessage from "./../util/message";
 
 export default {
   name: "Cart",
@@ -89,9 +103,12 @@ export default {
     NavFooter,
     ServiceBar,
     Modal,
+    Loading,
+    NoData,
   },
   data() {
     return {
+      loading: true,
       showModal: false, //弹框
       list: [], //商品列表
       allChecked: false, //是否全部选中
@@ -107,6 +124,7 @@ export default {
     //获取购物车列表
     getCartList() {
       this.axios.get("/carts").then((res) => {
+        this.loading = false;
         this.renderData(res);
       });
     },
@@ -131,13 +149,13 @@ export default {
 
       if (type === "-") {
         if (quantity === 1) {
-          alert("商品至少保留一件");
+          showMessage("warning", "商品至少保留一件");
           return;
         }
         --quantity;
       } else if (type === "+") {
         if (quantity === item.productStock) {
-          alert("购买数量不能大于库存数量");
+          showMessage("warning", "购买数量不能大于库存数量");
           return;
         }
         ++quantity;
@@ -158,6 +176,7 @@ export default {
     delProduct() {
       this.axios.delete(`/carts/${this.delPro.productId}`).then((res) => {
         this.renderData(res);
+        showMessage("success", "删除成功");
         this.showModal = false;
       });
     },
@@ -173,7 +192,7 @@ export default {
     order() {
       let isCheck = this.list.every((item) => !item.productSelected);
       if (isCheck) {
-        alert("请至少勾选一件商品");
+        showMessage("warning", "请至少勾选一件商品");
         return;
       }
       this.$router.push("/order/confirm");

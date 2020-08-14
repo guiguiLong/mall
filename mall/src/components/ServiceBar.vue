@@ -38,6 +38,9 @@ export default {
     width: 24.9%;
     text-align: center;
     border-right: 1px solid $colorH;
+    &:last-child {
+      border-right: 0;
+    }
     span {
       display: inline-block;
       width: 20px;

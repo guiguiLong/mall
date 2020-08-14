@@ -14,10 +14,10 @@
             <span>扫码登录</span>
           </h3>
           <div class="input">
-            <input type="text" placeholder="请输入账号" v-model="username" />
+            <input type="text" placeholder="请输入账号" v-model="username" @keyup.enter="login" />
           </div>
           <div class="input">
-            <input type="password" placeholder="请输入密码" v-model="password" />
+            <input type="password" placeholder="请输入密码" v-model="password" @keyup.enter="login" />
           </div>
           <div class="btn-box">
             <a href="javascript:;" class="btn" @click="login">登录</a>
@@ -50,17 +50,22 @@
 </template>
 
 <script>
+import showMessage from "./../util/message";
 export default {
   name: "Login",
   data() {
     return {
       username: "",
       password: "",
-      userId: "",
     };
   },
   methods: {
+    //登录
     login() {
+      if (!this.username || !this.password) {
+        showMessage("warning", "请输入账号或者密码");
+        return;
+      }
       let { username, password } = this;
       this.axios
         .post("/user/login", {
@@ -68,7 +73,7 @@ export default {
           password,
         })
         .then((res) => {
-          this.$cookie.set("userId", res.id, { expires: "1M" });
+          this.$cookie.set("userId", res.id, { expires: "Session" });
           this.$store.dispatch("saveUserName", res.username);
           this.$router.push("/index");
           this.username = "";
@@ -86,7 +91,7 @@ export default {
           email: "ls@163.com",
         })
         .then(() => {
-          alert("注册成功");
+          this.$message.success("注册成功");
         })
         .catch((err) => {
           throw err;
