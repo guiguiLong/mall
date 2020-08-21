@@ -13,11 +13,11 @@
     }
     .mask {
         @include position(fixed);
-        background: $colorI;
+        background: #7b7b7b;
         opacity: 0.5;
     }
     .modal-dialog {
-        @include position(absolute, 40%, 50%, 660px, auto);
+        @include position(absolute, 40%, 50%, 1000px, auto);
         background: $colorG;
         transform: translate(-50%, -50%);
         .modal-header {

@@ -78,9 +78,10 @@
         </div>
       </div>
     </div>
-    <el-backtop v-if="this.list.length!==0">
+    <el-backtop>
       <div class="scroll-top">
-        <img src="/imgs/scroll-top.svg" alt />
+        <i class="el-icon-upload2"></i>
+        <div>回顶部</div>
       </div>
     </el-backtop>
     <ServiceBar></ServiceBar>
@@ -286,11 +287,6 @@ export default {
           text-align: center;
         }
       }
-    }
-  }
-  .scroll-top {
-    img {
-      width: 45px;
     }
   }
 }

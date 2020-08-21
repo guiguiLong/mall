@@ -26,13 +26,12 @@ Vue.use(VueLazyLoad, {
     loading: '/imgs/loading-svg/loading-bubbles.svg'
 })
 
-let mock = false;
+let mock = true;
 if (mock) {
     require('../public/mock/user/api')
 }
 
 axios.defaults.baseURL = '/api';
-// axios.defaults.baseURL = env.baseURL;
 axios.defaults.timeout = 8000;
 
 axios.interceptors.response.use(res => {

@@ -52,29 +52,47 @@ const routes = [{
         children: [{
                 path: 'index',
                 name: 'index',
+                meta: {
+                    title: "百分百感觉商城"
+                },
                 component: Index
             },
             {
                 path: 'product/:id',
                 name: 'product',
+                meta: {
+                    title: "商品详情"
+                },
                 component: Product
             }, {
                 path: 'detail/:id',
                 name: 'detail',
+                meta: {
+                    title: "百分百感觉商城"
+                },
                 component: Detail
             }
         ]
     }, {
         path: '/login',
         name: 'login',
+        meta: {
+            title: '请登录'
+        },
         component: Login
     }, {
         path: '/cart',
         name: 'cart',
+        meta: {
+            title: "我的购物车"
+        },
         component: Cart
     }, {
         path: '/productList',
         name: 'productList',
+        meta: {
+            title: "产品列表"
+        },
         component: ProductList
 
     }, {
@@ -84,16 +102,25 @@ const routes = [{
         children: [{
                 path: 'list',
                 name: 'list',
+                meta: {
+                    title: "订单详情"
+                },
                 component: OrderList
             },
             {
                 path: 'confirm',
                 name: 'confirm',
+                meta: {
+                    title: "订单确认"
+                },
                 component: OrderConfirm
             },
             {
                 path: 'pay',
                 name: 'pay',
+                meta: {
+                    title: "订单支付"
+                },
                 component: OrderPay
             },
             {
@@ -142,6 +169,8 @@ router.beforeEach((to, from, next) => {
                 throw err;
             });
     }
-
+    if (to.meta.title) {
+        document.title = to.meta.title;
+    }
 })
 export default router

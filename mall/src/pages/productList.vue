@@ -5,7 +5,7 @@
       <swiper :options="swiperOptions">
         <swiper-slide v-for="(item,index) in slideList" :key="index">
           <a :href="'/product/'+item.id">
-            <img v-lazy="item.img" alt class="fill" />
+            <img :src="item.img" alt class="fill" />
           </a>
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
@@ -169,23 +169,6 @@ export default {
         &:hover {
           color: #ff6700;
         }
-      }
-    }
-    .scroll-top {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: #fff;
-      padding: 10px;
-      font-size: 40px;
-      color: #999;
-      div {
-        margin-top: 5px;
-        font-size: 13px;
-        width: 40px;
-      }
-      &:hover {
-        color: #ff6700;
       }
     }
     .swiper-container {

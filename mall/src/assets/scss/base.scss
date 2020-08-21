@@ -70,3 +70,21 @@ textarea:-webkit-autofill,
 select:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #fff inset //背景色是什么，设置相同颜色，这里body的默认背景色是白色
 }
+
+.scroll-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    padding: 10px;
+    font-size: 40px;
+    color: #999;
+    div {
+        margin-top: 5px;
+        font-size: 13px;
+        width: 40px;
+    }
+    &:hover {
+        color: #ff6700;
+    }
+}

@@ -113,12 +113,25 @@
     >
       <template v-slot:body>商品添加成功</template>
     </Modal>
+
+    <!-- <GoodsModal
+      modalType="middle"
+      title="标题"
+      btnType="3"
+      sureText="确定"
+      cancelText="去购物车"
+      :goodsData="goodsData"
+      :showModal="showModal"
+      @submit="showModal=false"
+      @cancel="goCart"
+    ></GoodsModal> -->
   </div>
 </template>
 
 <script>
 import ServiceBar from "../components/ServiceBar";
 import Modal from "../components/Modal";
+import GoodsModal from "../components/GoodsModal";
 import { Swiper, SwiperSlide, directive } from "vue-awesome-swiper";
 import "swiper/css/swiper.css";
 
@@ -129,10 +142,12 @@ export default {
     Swiper,
     SwiperSlide,
     Modal,
+    GoodsModal,
   },
   data() {
     return {
       showModal: false,
+      goodsData: {},
       swiperOptions: {
         autoplay: {
           disableOnInteraction: false,
@@ -262,6 +277,9 @@ export default {
   },
   mounted() {
     this.init();
+    this.axios.get("/pro").then((res) => {
+      this.goodsData = res;
+    });
   },
 };
 </script>

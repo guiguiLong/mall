@@ -86,9 +86,9 @@ export default {
     register() {
       this.axios
         .post("/user/register", {
-          username: "ls",
-          password: "ls",
-          email: "ls@163.com",
+          username: "ls3",
+          password: "ls3",
+          email: "ls3@163.com",
         })
         .then(() => {
           this.$message.success("注册成功");
