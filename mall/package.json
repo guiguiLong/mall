@@ -14,7 +14,7 @@
         "default-passive-events": "^2.0.0",
         "element-china-area-data": "^5.0.1",
         "qrcode": "^1.4.4",
-        "swiper": "^5.4.1",
+        "swiper": "^6.5.1",
         "vue": "^2.6.11",
         "vue-awesome-swiper": "^4.1.1",
         "vue-infinite-scroll": "^2.0.2",
